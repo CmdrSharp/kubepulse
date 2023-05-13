@@ -1,0 +1,29 @@
+body {
+  background-color: #232323;
+  padding: 0px;
+  margin: 0px;
+  text-align: center;
+}
+
+div.container {
+  color:#f2f2f2;
+}
+
+.container #kubernetes {
+  margin: 0 auto;
+  font-weight: 300;
+  font-size: 12pt;
+}
+
+.container #kubernetes table {
+  margin: 10px auto;
+}
+
+.container #kubernetes table th {
+  text-align: right;
+  padding-right: 20px;
+}
+
+.container #info table td {
+  text-align: left;
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KubePulse - Version {{ version }}</title>
+    <link rel="stylesheet" type="text/css" href="/{{ asset_path }}/style.css">
+</head>
+<body>
+    <img src="/{{ asset_path }}/k8.png" style="width: 25%;">
+
+    <div class="container">
+      <div id="kubernetes">
+        <table>
+          <tr>
+            <th>Namespace:</th>
+            <td>{{ namespace }}</td>
+          </tr>
+          <tr>
+            <th>Pod sent over WebSocket:</th>
+            <td id="pod">-</td>
+          </tr>
+          <tr>
+            <th>Node sent over WebSocket:</th>
+            <td id="node">-</td>
+          </tr>
+          <tr>
+            <th>Time sent over WebSocket:</th>
+            <td id="time">--:--:--</td>
+          </tr>
+          <tr>
+            <th>Number of connected clients:</th>
+            <td id="clients">0</td>
+          </tr>
+          <tr>
+            <th>Message:</th>
+            <td id="message">Hello Kubernetes!</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+</body>
+</html>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    function startSocket() {
+      var loc = window.location, rel_uri;
+      const time = document.getElementById('time');
+      const pod = document.getElementById('pod');
+      const node = document.getElementById('node');
+      const clients = document.getElementById('clients');
+      const message = document.getElementById('message');
+
+      rel_uri = "ws:";
+
+      if(loc.protocol === "https:") {
+        rel_uri = "wss:";
+      }
+
+      rel_uri += "//" + loc.host;
+      rel_uri += loc.pathname.replace(/\/+$/, "") + "/ws";
+
+      var ws = new WebSocket(rel_uri);
+      
+      ws.onopen = function () {
+        console.log('Websocket connection established')
+        document.body.style='background: #232323';
+        ws.send('Connected')
+      }
+
+      ws.onmessage = function (ev) {
+        let data = JSON.parse(ev.data);
+
+        time.innerText = data.time;
+        pod.innerText = data.pod;
+        node.innerText = data.node;
+        clients.innerText = data.clients;
+        message.innerText = data.message;
+      }
+
+      ws.onclose = function () {
+        document.body.style='background: #ccc';
+        time.innerText = 'Websocket connection lost - attempting to establish new connection';
+
+        ws = null;
+        setTimeout(startSocket, 5000);
+      }
+
+      const ping = setInterval(function() {
+        if(!ws) {
+          clearInterval(ping);
+          return;
+        }
+
+        if(!ws.OPEN) {
+          return;
+        }
+
+        ws.send('ping');
+      }, 1000);
+    }
+
+    startSocket();
+    
+    window.onbeforeunload = function() {
+      websocket.onclose = function () {};
+      websocket.close();
+      clearInterval(ping);
+    };
+  });
+</script>
