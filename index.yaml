@@ -3,6 +3,16 @@ entries:
   kubepulse:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2023-05-17T08:59:42.29694223Z"
+    description: A cluster test application for Kubernetes
+    digest: c4306852c67417384b871d117dc3afda706ff397cface39257978cd95616b40c
+    name: kubepulse
+    type: application
+    urls:
+    - https://github.com/CmdrSharp/kubepulse/releases/download/kubepulse-0.1.1/kubepulse-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2023-05-13T22:44:05.699833308Z"
     description: A cluster test application for Kubernetes
     digest: 53f6f64be4c777d17217d891d8e868145271e23425850443f53172b478641154
@@ -11,4 +21,4 @@ entries:
     urls:
     - https://github.com/CmdrSharp/kubepulse/releases/download/kubepulse-0.1.0/kubepulse-0.1.0.tgz
     version: 0.1.0
-generated: "2023-05-13T22:44:05.699838808Z"
+generated: "2023-05-17T08:59:42.296954031Z"
