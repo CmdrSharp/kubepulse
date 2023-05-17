@@ -34,7 +34,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -50,7 +50,7 @@ spec:
           - name: RUST_LOG
             value: {{ .Values.logVerbosity | default "kubepulse=info,tower_http=info" }}
           - name: KUBEPULSE_PORT
-            value: "80"
+            value: "8080"
           - name: KUBEPULSE_BASEPATH
             value: {{ .Values.kubepulse.basepath | default "/" }}
           - name: KUBEPULSE_MESSAGE
